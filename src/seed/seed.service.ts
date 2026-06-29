@@ -123,6 +123,11 @@ export class SeedService implements OnModuleInit {
   ) {}
 
   async onModuleInit() {
+    if (process.env.SEED_ON_STARTUP !== 'true') {
+      this.logger.log('Skipping database seed: SEED_ON_STARTUP is not true');
+      return;
+    }
+
     await this.resetAllData();
     await this.seedUsers();
     const categories = await this.seedCategoriesFromMenu();
